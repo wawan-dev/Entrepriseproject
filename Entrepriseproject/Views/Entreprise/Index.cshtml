@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Entrepriseproject.Models.Entreprise>
+
+
+
+<form asp-action="Recherche" method="get">
+    <div class="form-group">
+        <input type="text" name="query" class="form-control" placeholder="Rechercher par nom ou ville" />
+    </div>
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
+
+
+
+<h1>Liste des entreprises en bdd</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Siren</th>
+            <th>Siret</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Pays</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entreprise in Model)
+        {
+            <tr>
+                <td>@entreprise.Nom</td>
+                <td>@entreprise.Siren</td>
+                <td>@entreprise.Siret</td>
+                <td>@entreprise.Adresse</td>
+                <td>@entreprise.Ville</td>
+                <td>@entreprise.Code_postal</td>
+                <td>@entreprise.Pays</td>
+            </tr>
+        }
+    </tbody>
+</table>
