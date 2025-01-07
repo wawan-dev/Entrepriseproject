@@ -26,20 +26,23 @@ namespace Entrepriseproject.Controllers
             return View(entreprises);
         }
 
-        public IActionResult Recherche(string query)
-        {
+        //public IActionResult Recherche(string query)
+        //{
 
-            var entreprises = _context.Entreprise
-                .Where(e => e.Nom.Contains(query) || e.Ville.Contains(query))
-                .ToList();
-            return View("Index", entreprises); // Réutilise la vue Index pour afficher les résultats.
-        }
+        //    var entreprises = _context.Entreprise
+        //        .Where(e => e.Nom.Contains(query) || e.Ville.Contains(query))
+        //        .ToList();
+        //    return View("Index", entreprises); // Réutilise la vue Index pour afficher les résultats.
+        //}
 
-        public async Task<IActionResult> Recherche()
+        public async Task<IActionResult> Recherche(string query)
         {
             var allEntreprises = new List<Entreprise>();
 
-            string apiUrl = "https://recherche-entreprises.api.gouv.fr/search?q=*"; // Recherche pour toutes les entreprises
+            // Si 'query' est vide ou nul, vous pouvez décider de rechercher toutes les entreprises
+            
+
+            string apiUrl = $"https://recherche-entreprises.api.gouv.fr/search?q={query}"; // Utiliser la valeur de 'query'
             var response = await _httpClient.GetStringAsync(apiUrl);
 
             // Désérialisation de la réponse JSON
@@ -53,6 +56,7 @@ namespace Entrepriseproject.Controllers
             // Retourner les entreprises sous forme de liste dans la vue
             return View(allEntreprises);
         }
+
 
         public class ApiResponse
         {
