@@ -53,7 +53,7 @@ namespace Entrepriseproject.Controllers
             foreach(var a in  deserializedData.Results) {
                 var entreprise = new Entreprise
                 {
-                    Nom = a.NomComplet,
+                    Nom = a.nom_complet,
                     Siren = a.Siren,
                     Siret = a.Siege?.Siret,
                     Adresse = a.Siege?.Adresse,
@@ -74,7 +74,7 @@ namespace Entrepriseproject.Controllers
             }
 
             // Retourner les entreprises sous forme de liste dans la vue
-            return View(allEntreprises);
+            return View("Index", allEntreprises);
         }
 
 

@@ -23,7 +23,7 @@
     public class Result
     {
         public string Siren { get; set; }
-        public string NomComplet { get; set; }
+        public string nom_complet { get; set; }
         public string NomRaisonSociale { get; set; }
         public string? Sigle { get; set; }
         public int NombreEtablissements { get; set; }
