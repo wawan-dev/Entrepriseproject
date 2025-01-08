@@ -24,6 +24,7 @@ namespace Entrepriseproject.Controllers
 
         public IActionResult Index()
         {
+            
             var entreprises = _context.Entreprise.ToList();
             return View(entreprises);
         }
@@ -62,11 +63,12 @@ namespace Entrepriseproject.Controllers
                     Departement = a.Siege?.Departement,
                     Region = a.Siege?.Region,
                     Pays = "France", // Vous pouvez définir la valeur par défaut ou utiliser l'information si disponible
-                    Date_Creation = DateTime.Today,
+                    Date_Creation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
                     Forme_Juridique = a.NatureJuridique,
-                    Activite = a.ActivitePrincipale,
-                    code_ape = a.ActivitePrincipale, // ou un autre champ qui pourrait être le code APE
-                    Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}"))
+                    Activite = a.activite_principale,
+                                        Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
+                    Coordonnees = a.Siege.Coordonnees,
+                    CategorieEntreprise = a.Categorie_Entreprise
                 };
 
                 // Ajouter l'entreprise à la liste

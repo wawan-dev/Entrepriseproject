@@ -12,12 +12,16 @@
         public string Departement { get; set; }
         public string Region { get; set; }
         public string Pays { get; set; } = "France";
-        public DateTime Date_Creation { get; set; }
+        public DateTime? Date_Creation { get; set; }
         public string Forme_Juridique { get; set; }
         public int? Effectif { get; set; }
         public string Dirigeants { get; set; }
         public string Activite { get; set; }
         public string code_ape { get; set; }
+        public string CategorieEntreprise { get; set; }
+        
+        public string Coordonnees { get; set; }
+
     }
 
     public class Result
@@ -29,8 +33,8 @@
         public int NombreEtablissements { get; set; }
         public int NombreEtablissementsOuverts { get; set; }
         public Siege Siege { get; set; }
-        public string ActivitePrincipale { get; set; }
-        public string? CategorieEntreprise { get; set; }
+        public string activite_principale { get; set; }
+        public string? Categorie_Entreprise { get; set; }
         public string? CaractereEmployeur { get; set; }
         public string DateCreation { get; set; }
         public string? DateFermeture { get; set; }
@@ -47,7 +51,7 @@
 
     public class Siege
     {
-        public string ActivitePrincipale { get; set; }
+        public string activite_principale { get; set; }
         public string? ActivitePrincipaleRegistreMetier { get; set; }
         public string? AnneeTrancheEffectifSalarie { get; set; }
         public string Adresse { get; set; }
