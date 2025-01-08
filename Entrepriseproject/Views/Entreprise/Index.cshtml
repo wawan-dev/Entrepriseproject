@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Entrepriseproject.Models.Entreprise>
-
-
+﻿@model Entreprisepage
 
 @{
     ViewData["Title"] = "Liste des entreprises";
@@ -38,21 +36,40 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var entreprise in Model)
-                {
-                    <tr>
-                        <td>@entreprise.Nom</td>
-                        <td>@entreprise.Siren</td>
-                        <td>@entreprise.Siret</td>
-                        <td>@entreprise.Adresse</td>
-                        <td>@entreprise.CategorieEntreprise</td>
-                        <td>@entreprise.Coordonnees</td>
-                        <td>@entreprise.Dirigeants</td>
-                        <td>@entreprise.Activite</td>
-                        <td>@entreprise.Pays</td>
-                    </tr>
+                @if(Model.Results != null){
+                @foreach (var entreprise in Model.Results)
+                    {
+                   
+                        <tr>
+                            <td>@entreprise.Nom</td>
+                            <td>@entreprise.Siren</td>
+                            <td>@entreprise.Siret</td>
+                            <td>@entreprise.Adresse</td>
+                            <td>@entreprise.CategorieEntreprise</td>
+                            <td>@entreprise.Coordonnees</td>
+                            <td>@entreprise.Dirigeants</td>
+                            <td>@entreprise.Activite</td>
+                            <td>@entreprise.Pays</td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
+
+        @if(Model.Results != null){
+        <div class="pagination">
+            @if (Model.CurrentPage > 1)
+            {
+                <a href="@Url.Action("Recherche", new { query = Model.Query, page = Model.CurrentPage - 1 })">Précédent</a>
+            }
+
+            <span>Page @Model.CurrentPage sur @Model.TotalPages</span>
+
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <a href="@Url.Action("Recherche", new { query = Model.Query, page = Model.CurrentPage + 1 })">Suivant</a>
+            }
+        </div>
+        }
     </div>
 </div>

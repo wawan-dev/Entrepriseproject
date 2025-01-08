@@ -19,7 +19,6 @@
         public string Activite { get; set; }
         public string code_ape { get; set; }
         public string CategorieEntreprise { get; set; }
-        
         public string Coordonnees { get; set; }
 
     }
@@ -152,11 +151,20 @@
     public class EntrepriseResult
     {
         public List<Result> Results { get; set; }
-        public int TotalResults { get; set; }
+        public int Total_Results { get; set; }
         public int Page { get; set; }
-        public int PerPage { get; set; }
-        public int TotalPages { get; set; }
+        public int Per_Page { get; set; }
+        public int total_pages { get; set; }
     }
 
+    public class Entreprisepage
+    {
+        public List<Entreprise> Results { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+        public int PerPage { get; set; }
+        public string Query { get; set; }
 
-}
+    }
+
+    }

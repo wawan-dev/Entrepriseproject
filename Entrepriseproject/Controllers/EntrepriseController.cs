@@ -5,6 +5,8 @@ using System.Text.Json;
 using Applicationhackathon;
 using Entrepriseproject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Mysqlx.Prepare;
 using Newtonsoft.Json;
 
 namespace Entrepriseproject.Controllers
@@ -24,8 +26,9 @@ namespace Entrepriseproject.Controllers
 
         public IActionResult Index()
         {
-            
-            var entreprises = _context.Entreprise.ToList();
+
+            //var entreprises = _context.Entreprise.ToList();
+            var entreprises = new Entreprisepage();
             return View(entreprises);
         }
 
@@ -38,14 +41,14 @@ namespace Entrepriseproject.Controllers
         //    return View("Index", entreprises); // Réutilise la vue Index pour afficher les résultats.
         //}
 
-        public async Task<IActionResult> Recherche(string query)
+        public async Task<IActionResult> Recherche(string query, int page = 1, int perPage = 10)
         {
             var allEntreprises = new List<Entreprise>();
 
             // Si 'query' est vide ou nul, vous pouvez décider de rechercher toutes les entreprises
-            
 
-            string apiUrl = $"https://recherche-entreprises.api.gouv.fr/search?q={query}"; // Utiliser la valeur de 'query'
+
+            string apiUrl = $"https://recherche-entreprises.api.gouv.fr/search?q={query}&page={page}&perPage={perPage}"; ; // Utiliser la valeur de 'query'
             var response = await _httpClient.GetStringAsync(apiUrl);
 
             // Désérialisation de la réponse JSON
@@ -66,7 +69,7 @@ namespace Entrepriseproject.Controllers
                     Date_Creation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
                     Forme_Juridique = a.NatureJuridique,
                     Activite = a.activite_principale,
-                                        Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
+                    Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
                     Coordonnees = a.Siege.Coordonnees,
                     CategorieEntreprise = a.Categorie_Entreprise
                 };
@@ -74,9 +77,17 @@ namespace Entrepriseproject.Controllers
                 // Ajouter l'entreprise à la liste
                 allEntreprises.Add(entreprise);
             }
+            var model = new Entreprisepage
+            {
+                Results = allEntreprises,
+                CurrentPage = deserializedData.Page,
+                TotalPages = deserializedData.total_pages,
+                Query = query,
+                PerPage = perPage
+            };
 
             // Retourner les entreprises sous forme de liste dans la vue
-            return View("Index", allEntreprises);
+            return View("Index", model);
         }
 
 
