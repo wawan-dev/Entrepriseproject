@@ -91,6 +91,28 @@ namespace Entrepriseproject.Controllers
         }
 
 
-       
+        public async Task<IActionResult> AjouterEntreprise(string Nom, string Siren, string Siret, string Adresse, string CategorieEntreprise, string Coordonnees, string Dirigeants, string Activite, string Pays)
+        {
+            
+            var entreprise = new Entreprise
+            {
+                Nom = Nom,
+                Siren = Siren,
+                Siret = Siret,
+                Adresse = Adresse,
+                CategorieEntreprise = CategorieEntreprise,
+                Coordonnees = Coordonnees,
+                Dirigeants = Dirigeants,
+                Activite = Activite,
+                Pays = Pays
+            };
+
+            // Ajouter l'entreprise à la base de données
+            _context.Entreprise.Add(entreprise);
+            await _context.SaveChangesAsync();
+
+            // Rediriger vers la vue d'index ou vers une autre page si nécessaire
+            return RedirectToAction("Index");
+        }
     }
 }

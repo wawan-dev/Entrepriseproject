@@ -109,6 +109,7 @@
                     <th>Dirigeant</th>
                     <th>Activité</th>
                     <th>Pays</th>
+                    <th>Ajouter en BDD</th>
                 </tr>
             </thead>
             <tbody>
@@ -126,7 +127,22 @@
                             <td>@entreprise.Dirigeants</td>
                             <td>@entreprise.Activite</td>
                             <td>@entreprise.Pays</td>
+                            <td>
+                                <form asp-action="AjouterEntreprise" method="post">
+                                    <input type="hidden" name="Nom" value="@entreprise.Nom" />
+                                    <input type="hidden" name="Siren" value="@entreprise.Siren" />
+                                    <input type="hidden" name="Siret" value="@entreprise.Siret" />
+                                    <input type="hidden" name="Adresse" value="@entreprise.Adresse" />
+                                    <input type="hidden" name="CategorieEntreprise" value="@entreprise.CategorieEntreprise" />
+                                    <input type="hidden" name="Coordonnees" value="@entreprise.Coordonnees" />
+                                    <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
+                                    <input type="hidden" name="Activite" value="@entreprise.Activite" />
+                                    <input type="hidden" name="Pays" value="@entreprise.Pays" />
+                                    <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
+                                </form>
+                            </td>  
                         </tr>
+                        
                     }
                 }
             </tbody>
