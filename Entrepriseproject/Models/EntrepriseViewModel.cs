@@ -17,7 +17,7 @@
         public string? code_ape { get; set; }
         public string? CategorieEntreprise { get; set; }
         public string? Coordonnees { get; set; }
-        public List<Commentaire> Commentaires { get; set; }
+        public List<Commentaire>? Commentaires { get; set; }
 
     }
 

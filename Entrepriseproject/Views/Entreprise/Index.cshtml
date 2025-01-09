@@ -1,24 +1,28 @@
-﻿@model Entreprisepage
-
-@{
-    ViewData["Title"] = "Liste des entreprises";
-}
-
-<div class="container mt-5">
+﻿<div class="container mt-5">
     <h1 class="text-center my-4 text-primary">Liste des entreprises</h1>
 
     <!-- Formulaire de recherche -->
     <form asp-action="Recherche" method="get" class="mb-4">
         <div class="row">
             <div class="col-md-8">
-                <input type="text" name="query" class="form-control" placeholder="Rechercher par nom, addresse ou siret" />
+                <input type="text" name="query" class="form-control" placeholder="Rechercher par nom, adresse ou SIRET" />
             </div>
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary w-100">Rechercher</button>
             </div>
         </div>
     </form>
-    @if(Model.Results != null){
+
+    @if (Model.Results == null || Model.Results.Count == 0)
+    {
+        <div class="d-flex justify-content-center align-items-center" style="height: 30vh;">
+            <div class="text-center p-4" style="background-color: #f8d7da; border: 2px solid #f5c6cb; border-radius: 10px; color: #721c24;">
+                <h3>@(Model.Results == null ? "En attente de recherche" : "Aucun résultat pour votre recherche")</h3>
+            </div>
+        </div>
+    }
+    else
+    {
         <div class="d-flex justify-content-center my-4">
             <ul class="pagination">
                 @if (Model.CurrentPage > 1)
@@ -93,95 +97,81 @@
                 }
             </ul>
         </div>
-    }
 
-
-    <div class="row mb-2">
-        <div class="col-md-4">
-            <form action="@Url.Action("Index", "Entreprise")" method="get">
-                <button type="submit" class="btn btn-primary w-100">Réinitialiser</button>
-            </form>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <form action="@Url.Action("Index", "Entreprise")" method="get">
+                    <button type="submit" class="btn btn-primary w-100">Réinitialiser</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nom</th>
-                    <th>Siren</th>
-                    <th>Siret</th>
-                    <th>Adresse</th>
-                    <th>Code Postal</th>
-                    <th>Ville</th>
-                    <th>Catégorie</th>
-                    <th>Coordonnées</th>
-                    <th>Dirigeant</th>
-                    <th>Activité</th>
-                    <th>Pays</th>
-                    <th>Ajouter en BDD</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(Model.Results != null ){
-                    if (Model.Results.Count == 0){
-                        @foreach (var entreprise in Model.Results)
-                            {
-                   
-                                <tr>
-                                    <td>@entreprise.Nom</td>
-                                    <td>@entreprise.Siren</td>
-                                    <td>@entreprise.Siret</td>
-                                    <td>@entreprise.Adresse</td>
-                                    <td>@entreprise.Code_postal</td>
-                                    <td>@entreprise.Ville</td>
-                                    <td>@entreprise.CategorieEntreprise</td>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
-                                        {
-                                            var coords = entreprise.Coordonnees.Split(',');
-                                            <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
-                                                @entreprise.Coordonnees
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <span>Non disponible</span>
-                                        }
-                                    </td>
-                                    <td>@entreprise.Dirigeants</td>
-                                    <td>@entreprise.Activite</td>
-                                    <td>@entreprise.Pays</td>
-                            
-                                    <td>
-                                        <form asp-action="AjouterEntreprise" method="post">
-                                            <input type="hidden" name="Nom" value="@entreprise.Nom" />
-                                            <input type="hidden" name="Siren" value="@entreprise.Siren" />
-                                            <input type="hidden" name="Siret" value="@entreprise.Siret" />
-                                            <input type="hidden" name="Adresse" value="@entreprise.Adresse" />
-                                            <input type="hidden" name="CategorieEntreprise" value="@entreprise.CategorieEntreprise" />
-                                            <input type="hidden" name="Coordonnees" value="@entreprise.Coordonnees" />
-                                            <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
-                                            <input type="hidden" name="Activite" value="@entreprise.Activite" />
-                                            <input type="hidden" name="Pays" value="@entreprise.Pays" />
-                                            <input type="hidden" name="CodePostal" value="@entreprise.Code_postal" />
-                                            <input type="hidden" name="Ville" value="@entreprise.Ville" />
-                                            <input type="hidden" name="Departement" value="@entreprise.Departement" />
-                                            <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
-                                        </form>
-                                    </td>
-
-                                </tr>
-                        
-                        }
-                    }
-                    else
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Siren</th>
+                        <th>Siret</th>
+                        <th>Adresse</th>
+                        <th>Code Postal</th>
+                        <th>Ville</th>
+                        <th>Catégorie</th>
+                        <th>Coordonnées</th>
+                        <th>Dirigeant</th>
+                        <th>Activité</th>
+                        <th>Pays</th>
+                        <th>Ajouter en BDD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entreprise in Model.Results)
                     {
-                        <h3>Aucun résultat pour votre recherche</h3>
+                        <tr>
+                            <td>@entreprise.Nom</td>
+                            <td>@entreprise.Siren</td>
+                            <td>@entreprise.Siret</td>
+                            <td>@entreprise.Adresse</td>
+                            <td>@entreprise.Code_postal</td>
+                            <td>@entreprise.Ville</td>
+                            <td>@entreprise.CategorieEntreprise</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
+                                {
+                                    var coords = entreprise.Coordonnees.Split(',');
+                                    <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
+                                        @entreprise.Coordonnees
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span>Non disponible</span>
+                                }
+                            </td>
+                            <td>@entreprise.Dirigeants</td>
+                            <td>@entreprise.Activite</td>
+                            <td>@entreprise.Pays</td>
+                            <td>
+                                <form asp-action="AjouterEntreprise" method="post">
+                                    <input type="hidden" name="Nom" value="@entreprise.Nom" />
+                                    <input type="hidden" name="Siren" value="@entreprise.Siren" />
+                                    <input type="hidden" name="Siret" value="@entreprise.Siret" />
+                                    <input type="hidden" name="Adresse" value="@entreprise.Adresse" />
+                                    <input type="hidden" name="CategorieEntreprise" value="@entreprise.CategorieEntreprise" />
+                                    <input type="hidden" name="Coordonnees" value="@entreprise.Coordonnees" />
+                                    <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
+                                    <input type="hidden" name="Activite" value="@entreprise.Activite" />
+                                    <input type="hidden" name="Pays" value="@entreprise.Pays" />
+                                    <input type="hidden" name="CodePostal" value="@entreprise.Code_postal" />
+                                    <input type="hidden" name="Ville" value="@entreprise.Ville" />
+                                    <input type="hidden" name="Departement" value="@entreprise.Departement" />
+                                    <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
+                                </form>
+                            </td>
+                        </tr>
                     }
-                }
-                else{ <h3>En attente de recherche</h3>}
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
