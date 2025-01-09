@@ -2,24 +2,23 @@
 {
     public class Entreprise
     {
-        public int Id { get; set; }
-        public string Nom { get; set; }
-        public string Siren { get; set; }
-        public string Siret { get; set; }
-        public string Adresse { get; set; }
-        public string Code_postal { get; set; }
-        public string Ville { get; set; }
-        public string Departement { get; set; }
-        public string Region { get; set; }
-        public string Pays { get; set; } = "France";
+        public int? Id { get; set; }
+        public string? Nom { get; set; }
+        public string? Siren { get; set; }
+        public string? Siret { get; set; }
+        public string? Adresse { get; set; }
+        public string? Code_postal { get; set; }
+        public string? Ville { get; set; }
+        public string? Departement { get; set; }
+        public string? Pays { get; set; } = "France";
         public DateTime? Date_Creation { get; set; }
-        public string Forme_Juridique { get; set; }
-        public int? Effectif { get; set; }
-        public string Dirigeants { get; set; }
-        public string Activite { get; set; }
-        public string code_ape { get; set; }
-        public string CategorieEntreprise { get; set; }
-        public string Coordonnees { get; set; }
+        public string? Dirigeants { get; set; }
+        public string? Activite { get; set; }
+        public string? code_ape { get; set; }
+        public string? CategorieEntreprise { get; set; }
+        public string? Coordonnees { get; set; }
+        public string? Commentaire { get; set; }
+        public double? note { get; set; }
 
     }
 
@@ -56,7 +55,7 @@
         public string Adresse { get; set; }
         public string CaractereEmployeur { get; set; }
         public string? Cedex { get; set; }
-        public string CodePostal { get; set; }
+        public string Code_Postal { get; set; }
         public string Commune { get; set; }
         public string? ComplementAdresse { get; set; }
         public string Coordonnees { get; set; }
@@ -65,7 +64,7 @@
         public string? DateFermeture { get; set; }
         public string? DateMiseAJour { get; set; }
         public string DateMiseAJourInsee { get; set; }
-        public string Departement { get; set; }
+        public string departement { get; set; }
         public string? DistributionSpeciale { get; set; }
         public string Epci { get; set; }
         public bool EstSiege { get; set; }
@@ -75,7 +74,7 @@
         public string? IndiceRepetition { get; set; }
         public string Latitude { get; set; }
         public string? LibelleCedex { get; set; }
-        public string LibelleCommune { get; set; }
+        public string Libelle_Commune { get; set; }
         public string? LibelleCommuneEtranger { get; set; }
         public string? LibellePaysEtranger { get; set; }
         public string LibelleVoie { get; set; }

@@ -104,6 +104,8 @@
                     <th>Siren</th>
                     <th>Siret</th>
                     <th>Adresse</th>
+                    <th>Code Postal</th>
+                    <th>Ville</th>
                     <th>Catégorie</th>
                     <th>Coordonnées</th>
                     <th>Dirigeant</th>
@@ -122,11 +124,14 @@
                             <td>@entreprise.Siren</td>
                             <td>@entreprise.Siret</td>
                             <td>@entreprise.Adresse</td>
+                            <td>@entreprise.Code_postal</td>
+                            <td>@entreprise.Ville</td>
                             <td>@entreprise.CategorieEntreprise</td>
                             <td>@entreprise.Coordonnees</td>
                             <td>@entreprise.Dirigeants</td>
                             <td>@entreprise.Activite</td>
                             <td>@entreprise.Pays</td>
+                            
                             <td>
                                 <form asp-action="AjouterEntreprise" method="post">
                                     <input type="hidden" name="Nom" value="@entreprise.Nom" />
@@ -138,9 +143,13 @@
                                     <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
                                     <input type="hidden" name="Activite" value="@entreprise.Activite" />
                                     <input type="hidden" name="Pays" value="@entreprise.Pays" />
+                                    <input type="hidden" name="CodePostal" value="@entreprise.Code_postal" />
+                                    <input type="hidden" name="Ville" value="@entreprise.Ville" />
+                                    <input type="hidden" name="Departement" value="@entreprise.Departement" />
                                     <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
                                 </form>
-                            </td>  
+                            </td>
+
                         </tr>
                         
                     }

@@ -27,19 +27,22 @@ namespace Entrepriseproject.Controllers
         public IActionResult Index()
         {
 
-            //var entreprises = _context.Entreprise.ToList();
             var entreprises = new Entreprisepage();
             return View(entreprises);
         }
 
-        //public IActionResult Recherche(string query)
-        //{
+        public IActionResult MesEntreprise()
+        {
+            // Récupérer toutes les entreprises depuis la base de données
+            var entreprises = _context.Entreprise.ToList();
+                    ;
 
-        //    var entreprises = _context.Entreprise
-        //        .Where(e => e.Nom.Contains(query) || e.Ville.Contains(query))
-        //        .ToList();
-        //    return View("Index", entreprises); // Réutilise la vue Index pour afficher les résultats.
-        //}
+
+            // Passer les entreprises à la vue
+            return View(entreprises);
+        }
+
+
 
         public async Task<IActionResult> Recherche(string query, int page = 1, int perPage = 10)
         {
@@ -61,13 +64,11 @@ namespace Entrepriseproject.Controllers
                     Siren = a.Siren,
                     Siret = a.Siege?.Siret,
                     Adresse = a.Siege?.Adresse,
-                    Code_postal = a.Siege?.CodePostal,
-                    Ville = a.Siege?.LibelleCommune,
-                    Departement = a.Siege?.Departement,
-                    Region = a.Siege?.Region,
+                    Code_postal = a.Siege?.Code_Postal,
+                    Ville = a.Siege?.Libelle_Commune,
+                    Departement = a.Siege?.departement,
                     Pays = "France", // Vous pouvez définir la valeur par défaut ou utiliser l'information si disponible
                     Date_Creation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
-                    Forme_Juridique = a.NatureJuridique,
                     Activite = a.activite_principale,
                     Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
                     Coordonnees = a.Siege.Coordonnees,
@@ -91,28 +92,41 @@ namespace Entrepriseproject.Controllers
         }
 
 
-        public async Task<IActionResult> AjouterEntreprise(string Nom, string Siren, string Siret, string Adresse, string CategorieEntreprise, string Coordonnees, string Dirigeants, string Activite, string Pays)
+        [HttpPost]
+        public async Task<IActionResult> AjouterEntreprise(Entreprise entreprise)
         {
-            
-            var entreprise = new Entreprise
+            // Vous pouvez ici faire des vérifications et ajustements avant d'ajouter en BDD
+            if (ModelState.IsValid)
             {
-                Nom = Nom,
-                Siren = Siren,
-                Siret = Siret,
-                Adresse = Adresse,
-                CategorieEntreprise = CategorieEntreprise,
-                Coordonnees = Coordonnees,
-                Dirigeants = Dirigeants,
-                Activite = Activite,
-                Pays = Pays
-            };
+                _context.Entreprise.Add(entreprise); // Ajout de l'entreprise en base de données
+                await _context.SaveChangesAsync(); // Sauvegarde des modifications
 
-            // Ajouter l'entreprise à la base de données
-            _context.Entreprise.Add(entreprise);
+                return RedirectToAction("MesEntreprise"); // Rediriger vers la page de la liste des entreprises
+            }
+
+            return View(entreprise); // Si ModelState n'est pas valide, retourner le modèle à la vue
+        }
+
+        public async Task<IActionResult> ModifierEntreprise(int id, string commentaire, double note)
+        {
+            // Rechercher l'entreprise dans la base de données par ID
+            var entreprise = await _context.Entreprise.FindAsync(id);
+
+            if (entreprise == null)
+            {
+                return NotFound(); // Retourner une erreur si l'entreprise n'existe pas
+            }
+
+            // Mise à jour des champs
+            entreprise.Commentaire = commentaire;
+            entreprise.note = note;
+
+            // Sauvegarde des modifications
+            _context.Update(entreprise);
             await _context.SaveChangesAsync();
 
-            // Rediriger vers la vue d'index ou vers une autre page si nécessaire
-            return RedirectToAction("Index");
+            return RedirectToAction("MesEntreprise"); // Redirection vers la liste des entreprises après modification
         }
+
     }
 }
