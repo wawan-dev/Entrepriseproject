@@ -9,6 +9,7 @@
             <th>Siren</th>
             <th>Siret</th>
             <th>Adresse</th>
+            <th>Coordonées</th>
             <th>Catégorie</th>
             <th>Dirigeant</th>
             <th>Activité</th>
@@ -26,13 +27,26 @@
                 <td>@entreprise.Siren</td>
                 <td>@entreprise.Siret</td>
                 <td>@entreprise.Adresse</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
+                    {
+                        var coords = entreprise.Coordonnees.Split(',');
+                        <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
+                            @entreprise.Coordonnees
+                        </a>
+                    }
+                    else
+                    {
+                        <span>Non disponible</span>
+                    }
+                </td>
                 <td>@entreprise.CategorieEntreprise</td>
                 <td>@entreprise.Dirigeants</td>
                 <td>@entreprise.Activite</td>
                 <form action="/Entreprise/ModifierEntreprise" method="post">
                     <input type="hidden" name="id" value="@entreprise.Id" />
                 <td><input type="text" name="commentaire" value="@entreprise.Commentaire" /></td>
-                <td><input type="number" name="note" min="0" max="5" step="0.1" value="@entreprise.note" /></td>
+                <td><input type="number" name="note" min="0" max="5" step="1" value="@entreprise.note" /></td>
                 <td><button type="submit">OK</button></td>
                 </form>
             </tr>

@@ -95,7 +95,7 @@ namespace Entrepriseproject.Controllers
         [HttpPost]
         public async Task<IActionResult> AjouterEntreprise(Entreprise entreprise)
         {
-            // Vous pouvez ici faire des vérifications et ajustements avant d'ajouter en BDD
+            
             if (ModelState.IsValid)
             {
                 _context.Entreprise.Add(entreprise); // Ajout de l'entreprise en base de données
