@@ -1,74 +1,50 @@
-
 # Description du projet
 
-Le but du projet est développer une application qui permet de valoriser les données client pour une entreprise. Ces données étant avant dans un CSV, ils seront maintenant sur une base de données.
-## Tâche réaliser :
+Le but du projet est de développer une application qui permet de valoriser les données clients pour une entreprise. Ces données, auparavant dans un fichier CSV, seront désormais stockées dans une base de données.
 
-● Permettre de rechercher une entreprise par son nom, son numéro de SIRET, ou son
-adresse.
+## Tâches réalisées :
 
-● La recherche est similaire à celle de Google (un seul champ de saisie).
+- Permettre de rechercher une entreprise par son nom, son numéro de SIRET ou son adresse.
+- La recherche est similaire à celle de Google (un seul champ de saisie).
+- Afficher les informations de l'entreprise (nom, adresse, SIRET, etc.).
+- Permettre de commenter une entreprise (pour partager des informations avec les autres commerciaux).
+- Permettre de noter une entreprise pour évaluer la qualité des informations.
+- Ajouter en base de données en un clic le résultat de l'entreprise recherchée.
+- Créer un lien cliquable qui mène vers son emplacement sur Google Maps.
+- Intégrer une carte dans l'application qui affiche un marqueur pour toutes les entreprises présentes dans la base de données.
 
-● Afficher les informations de l'entreprise (nom, adresse, SIRET, etc.)
+## Choix techniques :
 
-● Permettre de commenter une entreprise (pour partager des informations avec les autres
-commerciaux).
-
-● Permettre de noter une entreprise pour évaluer la qualité des informations
-
-● Ajouter en base de donné en 1 clique le resultat de l'entreprise recherché
-
-● Faire un lien cliquable qui mène vers sont emplacement sur googlemap
-
-● Une map intégrer dans l'application qui met un petit tic sur la map pour toutes les entreprises présente dans la base de donnée
-
-## Choix Technique :
-
-Je développe en ASP.NET Core avec Entity Framework (EF Core), Utilisation de page razor.
-
-Affichage en HTML, CSS et Bootstrap.
-
-La base de données est sur phpmyadmin en MySql.
-
+- Développement en ASP.NET Core avec Entity Framework (EF Core), utilisation de pages Razor.
+- Affichage en HTML, CSS et Bootstrap.
+- Base de données sur phpMyAdmin en MySQL.
 
 ## Comment lancer l'application ?
 
-Récupérer le code depuis le dépot github ( lien plus bas).
-Lancer la solution et tester l'application.
+1. Récupérer le code depuis le dépôt GitHub (lien plus bas).
+2. Ouvrir la solution.
+3. Lancer l'application et tester ses fonctionnalités.
 
+## Aspects de sécurité
 
-## Aspect sécurité
+J'ai décidé de ne pas implémenter de système d'authentification, car le système de recherche n'a rien de personnel, et les commentaires et notes permettent d'être anonymes et d'informer les autres commerciaux.
 
-J'ai décider de ne pas faire un système d'authentification car le système de recherche n'a rien de personnel et les commentaire et note permette d'être anonyme et juste informer les autres commerciaux.
+La sécurité est assurée lors de l'envoi des commentaires et des notes dans la base de données. Un système d'encodage des commentaires est en place afin de prévenir les failles XSS, et le champ de note ne permet pas de saisir une note supérieure à 5, avec une validation côté serveur.
 
-La sécurité est présente lorsque les commentaires et note sont envoyer dans la base de donnée, un système pour encoder le commentaires est présent afin de ne pas laisser de faille XSS, et le champs de note ne permet pas de saisir une note > 5 et le code en arrière plan le traite également.
+## Évolutions à prévoir
 
-## Evolution a faire
-- Ne pas reajouter une entreprise déja présente dans la BDD
-- Présenter encore plus de donnée sur une entreprise
+- Empêcher l'ajout d'une entreprise déjà présente dans la base de données.
+- Présenter davantage de données sur une entreprise.
 
-## 🚀 Mon github, phpmyadmin et présentation vidéo
-GITHUB
+## 🚀 Mon GitHub, phpMyAdmin et présentation vidéo
 
-https://github.com/wawan-dev/Entrepriseproject
+- **GitHub** : [https://github.com/wawan-dev/Entrepriseproject](https://github.com/wawan-dev/Entrepriseproject)
+- **YouTube** : [Présentation vidéo](https://www.youtube.com/watch?v=HpSBuT8ugpc&list=PLw4NwGqyg_7udAI5yNpPVi6fhWHCjZFEw)
+- **phpMyAdmin** :
+  - **Nom d'utilisateur** : `girard_erwan`
+  - **Mot de passe** : `6rEtw3VB`
+  - **Nom de la base** : `girard_erwan_entreprise`
 
-YOUTUBE
+## Auteur
 
-lien -> https://www.youtube.com/watch?v=HpSBuT8ugpc&list=PLw4NwGqyg_7udAI5yNpPVi6fhWHCjZFEw
-
-PHPMYADMIN:
-
-Mdp -> 6rEtw3VB
-
-Login -> girard_erwan
-
-Nom de la base -> girard_erwan_entreprise
-
-
-
-
-
-## Authors
-
-- [@Erwan Girard](https://github.com/wawan-dev/Entrepriseproject)
-
+- [@Erwan Girard](https://github.com/wawan-dev/Entrepriseproject) 
