@@ -123,57 +123,64 @@
                 </tr>
             </thead>
             <tbody>
-                @if(Model.Results != null){
-                @foreach (var entreprise in Model.Results)
-                    {
+                @if(Model.Results != null ){
+                    if (Model.Results.Count == 0){
+                        @foreach (var entreprise in Model.Results)
+                            {
                    
-                        <tr>
-                            <td>@entreprise.Nom</td>
-                            <td>@entreprise.Siren</td>
-                            <td>@entreprise.Siret</td>
-                            <td>@entreprise.Adresse</td>
-                            <td>@entreprise.Code_postal</td>
-                            <td>@entreprise.Ville</td>
-                            <td>@entreprise.CategorieEntreprise</td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
-                                {
-                                    var coords = entreprise.Coordonnees.Split(',');
-                                    <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
-                                        @entreprise.Coordonnees
-                                    </a>
-                                }
-                                else
-                                {
-                                    <span>Non disponible</span>
-                                }
-                            </td>
-                            <td>@entreprise.Dirigeants</td>
-                            <td>@entreprise.Activite</td>
-                            <td>@entreprise.Pays</td>
+                                <tr>
+                                    <td>@entreprise.Nom</td>
+                                    <td>@entreprise.Siren</td>
+                                    <td>@entreprise.Siret</td>
+                                    <td>@entreprise.Adresse</td>
+                                    <td>@entreprise.Code_postal</td>
+                                    <td>@entreprise.Ville</td>
+                                    <td>@entreprise.CategorieEntreprise</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
+                                        {
+                                            var coords = entreprise.Coordonnees.Split(',');
+                                            <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
+                                                @entreprise.Coordonnees
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span>Non disponible</span>
+                                        }
+                                    </td>
+                                    <td>@entreprise.Dirigeants</td>
+                                    <td>@entreprise.Activite</td>
+                                    <td>@entreprise.Pays</td>
                             
-                            <td>
-                                <form asp-action="AjouterEntreprise" method="post">
-                                    <input type="hidden" name="Nom" value="@entreprise.Nom" />
-                                    <input type="hidden" name="Siren" value="@entreprise.Siren" />
-                                    <input type="hidden" name="Siret" value="@entreprise.Siret" />
-                                    <input type="hidden" name="Adresse" value="@entreprise.Adresse" />
-                                    <input type="hidden" name="CategorieEntreprise" value="@entreprise.CategorieEntreprise" />
-                                    <input type="hidden" name="Coordonnees" value="@entreprise.Coordonnees" />
-                                    <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
-                                    <input type="hidden" name="Activite" value="@entreprise.Activite" />
-                                    <input type="hidden" name="Pays" value="@entreprise.Pays" />
-                                    <input type="hidden" name="CodePostal" value="@entreprise.Code_postal" />
-                                    <input type="hidden" name="Ville" value="@entreprise.Ville" />
-                                    <input type="hidden" name="Departement" value="@entreprise.Departement" />
-                                    <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
-                                </form>
-                            </td>
+                                    <td>
+                                        <form asp-action="AjouterEntreprise" method="post">
+                                            <input type="hidden" name="Nom" value="@entreprise.Nom" />
+                                            <input type="hidden" name="Siren" value="@entreprise.Siren" />
+                                            <input type="hidden" name="Siret" value="@entreprise.Siret" />
+                                            <input type="hidden" name="Adresse" value="@entreprise.Adresse" />
+                                            <input type="hidden" name="CategorieEntreprise" value="@entreprise.CategorieEntreprise" />
+                                            <input type="hidden" name="Coordonnees" value="@entreprise.Coordonnees" />
+                                            <input type="hidden" name="Dirigeants" value="@entreprise.Dirigeants" />
+                                            <input type="hidden" name="Activite" value="@entreprise.Activite" />
+                                            <input type="hidden" name="Pays" value="@entreprise.Pays" />
+                                            <input type="hidden" name="CodePostal" value="@entreprise.Code_postal" />
+                                            <input type="hidden" name="Ville" value="@entreprise.Ville" />
+                                            <input type="hidden" name="Departement" value="@entreprise.Departement" />
+                                            <button type="submit" class="btn btn-primary">Ajouter en BDD</button>
+                                        </form>
+                                    </td>
 
-                        </tr>
+                                </tr>
                         
+                        }
+                    }
+                    else
+                    {
+                        <h3>Aucun résultat pour votre recherche</h3>
                     }
                 }
+                else{ <h3>En attente de recherche</h3>}
             </tbody>
         </table>
     </div>
