@@ -1,21 +1,24 @@
 ﻿@model Paginer<Entreprise>
 
-<h1>Mes Entreprises</h1>
+<h1 class="text-center my-4 text-primary">Mes Entreprises</h1>
 
-
-<form  method="get" class="mb-4">
+<!-- Formulaire de filtrage -->
+<form method="get" class="mb-4">
     <div class="row">
         <div class="col-md-8">
             <input type="text" name="filtre" class="form-control" placeholder="Rechercher par nom ou siret" />
         </div>
         <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+            <button type="submit" class="btn btn-primary rounded-pill">
+                <i class="bi bi-search"></i> Filtrer
+            </button>
         </div>
     </div>
 </form>
+
+<!-- Pagination -->
 <div class="d-flex justify-content-center my-4">
     <ul class="pagination">
-        <!-- Précédent -->
         @if (Model.CurrentPage > 1)
         {
             <li class="page-item">
@@ -43,7 +46,6 @@
             </li>
         }
 
-        <!-- Pages principales -->
         @for (int i = 1; i <= Model.TotalPages; i++)
         {
             if (i <= 3 || i >= Model.TotalPages - 2 || (i >= Model.CurrentPage - 2 && i <= Model.CurrentPage + 2))
@@ -60,7 +62,6 @@
             }
         }
 
-        <!-- Suivant -->
         @if (Model.CurrentPage < Model.TotalPages)
         {
             <li class="page-item">
@@ -89,6 +90,7 @@
         }
     </ul>
 </div>
+
 <div class="row mb-2">
     <div class="col-md-4">
         <form action="@Url.Action("MesEntreprise", "Entreprise")" method="get">
@@ -140,9 +142,9 @@
                 <td>@entreprise.Activite</td>
                 <form action="/Entreprise/ModifierEntreprise" method="post">
                     <input type="hidden" name="id" value="@entreprise.Id" />
-                <td><input type="text" name="commentaire" value="@entreprise.Commentaire" /></td>
+                <td><textarea name="commentaire" class="form-control" rows="3">@entreprise.Commentaire</textarea></td>
                 <td><input type="number" name="note" min="0" max="5" step="1" value="@entreprise.note" /></td>
-                <td><button type="submit">OK</button></td>
+                <td><button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">OK</button></td>
                 </form>
             </tr>
         }
@@ -150,7 +152,7 @@
 </table>
 
 <!-- Carte avec toutes les entreprises -->
-<button id="showAllMap" onclick="showAllMarkers()">Afficher toutes les entreprises sur la carte</button>
+<button id="showAllMap" onclick="showAllMarkers()" class="btn btn-info w-100 rounded-pill shadow-sm mt-4">Afficher toutes les entreprises sur la carte</button>
 <div id="map" style="width: 100%; height: 500px; margin-top: 10px;"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -164,10 +166,10 @@
         {
             var coords = entreprise.Coordonnees.Split(',');
             <text>{
-                        nom: '@entreprise.Nom',
-                        lat: @coords[0],
-                        lng: @coords[1]
-                    },</text>
+                                nom: '@entreprise.Nom',
+                                lat: @coords[0],
+                                lng: @coords[1]
+                            },</text>
         }
     }
     ];
@@ -176,7 +178,6 @@
 
     // Initialisation de la carte
     function initMap() {
-        // Initialisation de la carte centrée sur la France
         map = L.map('map').setView([46.603354, 1.8883335], 6); // Centre de la France
 
         // Ajouter le fond de carte (OpenStreetMap par défaut)

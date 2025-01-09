@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text.Json;
+using System.Web;
 using Applicationhackathon;
 using Entrepriseproject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -81,7 +82,7 @@ namespace Entrepriseproject.Controllers
                     Code_postal = a.Siege?.Code_Postal,
                     Ville = a.Siege?.Libelle_Commune,
                     Departement = a.Siege?.departement,
-                    Pays = "France", // Vous pouvez définir la valeur par défaut ou utiliser l'information si disponible
+                    Pays = "France", 
                     Date_Creation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
                     Activite = a.activite_principale,
                     Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
@@ -118,7 +119,7 @@ namespace Entrepriseproject.Controllers
                 return RedirectToAction("MesEntreprise"); // Rediriger vers la page de la liste des entreprises
             }
 
-            return View(entreprise); // Si ModelState n'est pas valide, retourner le modèle à la vue
+            return View(entreprise);
         }
 
         public async Task<IActionResult> ModifierEntreprise(int id, string commentaire, double note)
@@ -131,8 +132,18 @@ namespace Entrepriseproject.Controllers
                 return NotFound(); // Retourner une erreur si l'entreprise n'existe pas
             }
 
+            // Validation de la note (doit être un nombre valide entre 0 et 5)
+            if (note < 0 || note > 5)
+            {
+                ModelState.AddModelError("note", "La note doit être comprise entre 0 et 5.");
+                return View(entreprise); // Retourne à la vue si la validation échoue
+            }
+
+            // Nettoyage du commentaire pour éviter l'injection de code (XSS)
+            var sanitizedCommentaire = HttpUtility.HtmlEncode(commentaire);
+
             // Mise à jour des champs
-            entreprise.Commentaire = commentaire;
+            entreprise.Commentaire = sanitizedCommentaire;
             entreprise.note = note;
 
             // Sauvegarde des modifications
@@ -141,6 +152,7 @@ namespace Entrepriseproject.Controllers
 
             return RedirectToAction("MesEntreprise"); // Redirection vers la liste des entreprises après modification
         }
+
 
     }
 }
