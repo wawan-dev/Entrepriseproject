@@ -110,9 +110,7 @@
             <th>Coordonées</th>
             <th>Catégorie</th>
             <th>Dirigeant</th>
-            <th>Activité</th>
-            <th>Commentaire</th>
-            <th>Note</th>
+            <th>Activité</th> 
             <th></th>
         </tr>
     </thead>
@@ -140,12 +138,13 @@
                 <td>@entreprise.CategorieEntreprise</td>
                 <td>@entreprise.Dirigeants</td>
                 <td>@entreprise.Activite</td>
-                <form action="/Entreprise/ModifierEntreprise" method="post">
+                <form action="/Entreprise/Profil" method="post">
                     <input type="hidden" name="id" value="@entreprise.Id" />
-                <td><textarea name="commentaire" class="form-control" rows="3">@entreprise.Commentaire</textarea></td>
-                <td><input type="number" name="note" min="0" max="5" step="1" value="@entreprise.note" /></td>
-                <td><button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">OK</button></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill shadow-sm">Profil entreprise</button>
+                    </td>
                 </form>
+
             </tr>
         }
     </tbody>

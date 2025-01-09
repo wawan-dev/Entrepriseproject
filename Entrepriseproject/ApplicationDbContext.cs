@@ -14,7 +14,21 @@ namespace Applicationhackathon
         {
             get; set;
         }
-        
+
+        public DbSet<Commentaire> Commentaire
+        {
+            get; set;
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Commentaire>()
+            .Property(c => c.EntrepriseId)
+            .HasColumnName("id_entreprise");  // Correspondance explicite
+
+        }
+
+
+
 
     }
 }

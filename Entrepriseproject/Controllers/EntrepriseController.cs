@@ -7,6 +7,7 @@ using Applicationhackathon;
 using Entrepriseproject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Mysqlx.Prepare;
 using Newtonsoft.Json;
 
@@ -31,6 +32,21 @@ namespace Entrepriseproject.Controllers
             var entreprises = new Entreprisepage();
             return View(entreprises);
         }
+
+        public async Task<IActionResult> Profil(int id)
+        {
+            var entreprise = await _context.Entreprise
+                .Include(e => e.Commentaires) // Inclut les commentaires liés à l'entreprise
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (entreprise == null)
+            {
+                return NotFound();
+            }
+
+            return View(entreprise); // Passe l'objet entreprise à la vue
+        }
+
 
         public IActionResult MesEntreprise(int page = 1, string filtre = null)
         {
@@ -122,36 +138,34 @@ namespace Entrepriseproject.Controllers
             return View(entreprise);
         }
 
-        public async Task<IActionResult> ModifierEntreprise(int id, string commentaire, double note)
+        [HttpPost]
+        public async Task<IActionResult> AjouterCommentaire(int entrepriseId, string commentaire, int note)
         {
-            // Rechercher l'entreprise dans la base de données par ID
-            var entreprise = await _context.Entreprise.FindAsync(id);
+            if (note < 0 || note > 5 || string.IsNullOrWhiteSpace(commentaire))
+            {
+                return BadRequest("Données invalides.");
+            }
 
+            var entreprise = await _context.Entreprise.FindAsync(entrepriseId);
             if (entreprise == null)
             {
-                return NotFound(); // Retourner une erreur si l'entreprise n'existe pas
+                return NotFound();
             }
 
-            // Validation de la note (doit être un nombre valide entre 0 et 5)
-            if (note < 0 || note > 5)
+            var nouveauCommentaire = new Commentaire
             {
-                ModelState.AddModelError("note", "La note doit être comprise entre 0 et 5.");
-                return View(entreprise); // Retourne à la vue si la validation échoue
-            }
+                EntrepriseId = entrepriseId,
+                Texte = System.Net.WebUtility.HtmlEncode(commentaire),  // Éviter l'exécution de code
+                Note = note,
+                Date_Creation = DateTime.Now
+            };
 
-            // Nettoyage du commentaire pour éviter l'injection de code (XSS)
-            var sanitizedCommentaire = HttpUtility.HtmlEncode(commentaire);
-
-            // Mise à jour des champs
-            entreprise.Commentaire = sanitizedCommentaire;
-            entreprise.note = note;
-
-            // Sauvegarde des modifications
-            _context.Update(entreprise);
+            _context.Commentaire.Add(nouveauCommentaire);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("MesEntreprise"); // Redirection vers la liste des entreprises après modification
+            return RedirectToAction("Profil", new { id = entrepriseId });
         }
+
 
 
     }
