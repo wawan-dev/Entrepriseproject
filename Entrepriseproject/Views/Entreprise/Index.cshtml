@@ -127,7 +127,19 @@
                             <td>@entreprise.Code_postal</td>
                             <td>@entreprise.Ville</td>
                             <td>@entreprise.CategorieEntreprise</td>
-                            <td>@entreprise.Coordonnees</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(entreprise.Coordonnees))
+                                {
+                                    var coords = entreprise.Coordonnees.Split(',');
+                                    <a href="https://www.google.com/maps?q=@coords[0],@coords[1]" target="_blank">
+                                        @entreprise.Coordonnees
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span>Non disponible</span>
+                                }
+                            </td>
                             <td>@entreprise.Dirigeants</td>
                             <td>@entreprise.Activite</td>
                             <td>@entreprise.Pays</td>

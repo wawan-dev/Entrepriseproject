@@ -53,3 +53,50 @@
         }
     </tbody>
 </table>
+
+<button id="showAllMap" onclick="showAllMarkers()">Afficher toutes les entreprises sur la carte</button>
+<div id="map" style="width: 100%; height: 500px; margin-top: 10px;"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<script>
+    const entreprises = [
+    @foreach (var entreprise in Model)
+    {
+        if (!string.IsNullOrEmpty(entreprise.Coordonnees))
+        {
+            var coords = entreprise.Coordonnees.Split(',');
+            <text>{
+                                    nom: '@entreprise.Nom',
+                                    lat: @coords[0],
+                                    lng: @coords[1]
+                                },</text>
+        }
+    }
+    ];
+
+    let map;
+
+    function initMap() {
+        // Initialisation de la carte centrée sur la France
+        map = L.map('map').setView([46.603354, 1.8883335], 6); // Centre de la France
+
+        // Ajouter le fond de carte (OpenStreetMap par défaut)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+
+    function showAllMarkers() {
+        entreprises.forEach((entreprise) => {
+            const marker = L.marker([parseFloat(entreprise.lat), parseFloat(entreprise.lng)])
+                .addTo(map)
+                .bindPopup(`<b>${entreprise.nom}</b>`)
+                .openPopup();
+        });
+    }
+
+    // Initialiser la carte lorsque la page est chargée
+    window.onload = initMap;
+</script>
