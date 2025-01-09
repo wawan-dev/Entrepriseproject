@@ -31,27 +31,32 @@ namespace Entrepriseproject.Controllers
             return View(entreprises);
         }
 
-        public IActionResult MesEntreprise(int page = 1)
+        public IActionResult MesEntreprise(int page = 1, string filtre = null)
         {
             int pageSize = 10;
-            var totalEntreprises = _context.Entreprise.Count();
-            var entreprises = _context.Entreprise.ToList(); // Récupère toutes les entreprises
+            var query = _context.Entreprise.AsQueryable();
 
-            var entreprisesSurPage = entreprises
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+            // Si un filtre est fourni, on cherche dans le nom et le SIRET
+            if (!string.IsNullOrEmpty(filtre))
+            {
+                query = query.Where(e => e.Nom.Contains(filtre) || e.Siret.Contains(filtre));
+            }
+
+            var totalEntreprises = query.Count();
+            var entreprises = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var model = new Paginer<Entreprise>
             {
-                Entreprises = entreprisesSurPage,
-                AllEntreprises = entreprises, // Passe toutes les entreprises pour la carte
+                Entreprises = entreprises,
+                AllEntreprises = query.ToList(), // Toutes les entreprises pour la carte
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling((double)totalEntreprises / pageSize)
+                TotalPages = (int)Math.Ceiling((double)totalEntreprises / pageSize),
+                Filtre = filtre // Filtre à renvoyer pour le champ de recherche
             };
 
             return View(model);
         }
+
 
 
 
