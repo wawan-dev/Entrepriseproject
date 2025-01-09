@@ -31,15 +31,24 @@ namespace Entrepriseproject.Controllers
             return View(entreprises);
         }
 
-        public IActionResult MesEntreprise()
+        public IActionResult MesEntreprise(int page = 1)
         {
-            // Récupérer toutes les entreprises depuis la base de données
-            var entreprises = _context.Entreprise.ToList();
-                    ;
+            int pageSize = 10; // Le nombre d'entreprises par page
+            var totalEntreprises = _context.Entreprise.Count(); // Nombre total d'entreprises
+            var entreprises = _context.Entreprise
+                .Skip((page - 1) * pageSize) // Saute les entreprises des pages précédentes
+                .Take(pageSize) // Limite à la taille de la page
+                .ToList(); // Exécute la requête
 
+            // Créez un modèle de pagination
+            var model = new Paginer<Entreprise>
+            {
+                Entreprises = entreprises,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling((double)totalEntreprises / pageSize)
+            };
 
-            // Passer les entreprises à la vue
-            return View(entreprises);
+            return View(model);
         }
 
 
@@ -47,10 +56,6 @@ namespace Entrepriseproject.Controllers
         public async Task<IActionResult> Recherche(string query, int page = 1, int perPage = 10)
         {
             var allEntreprises = new List<Entreprise>();
-
-            // Si 'query' est vide ou nul, vous pouvez décider de rechercher toutes les entreprises
-
-
             string apiUrl = $"https://recherche-entreprises.api.gouv.fr/search?q={query}&page={page}&perPage={perPage}"; ; // Utiliser la valeur de 'query'
             var response = await _httpClient.GetStringAsync(apiUrl);
 
