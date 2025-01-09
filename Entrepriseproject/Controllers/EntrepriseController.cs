@@ -33,23 +33,27 @@ namespace Entrepriseproject.Controllers
 
         public IActionResult MesEntreprise(int page = 1)
         {
-            int pageSize = 10; // Le nombre d'entreprises par page
-            var totalEntreprises = _context.Entreprise.Count(); // Nombre total d'entreprises
-            var entreprises = _context.Entreprise
-                .Skip((page - 1) * pageSize) // Saute les entreprises des pages précédentes
-                .Take(pageSize) // Limite à la taille de la page
-                .ToList(); // Exécute la requête
+            int pageSize = 10;
+            var totalEntreprises = _context.Entreprise.Count();
+            var entreprises = _context.Entreprise.ToList(); // Récupère toutes les entreprises
 
-            // Créez un modèle de pagination
+            var entreprisesSurPage = entreprises
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
             var model = new Paginer<Entreprise>
             {
-                Entreprises = entreprises,
+                Entreprises = entreprisesSurPage,
+                AllEntreprises = entreprises, // Passe toutes les entreprises pour la carte
                 CurrentPage = page,
                 TotalPages = (int)Math.Ceiling((double)totalEntreprises / pageSize)
             };
 
             return View(model);
         }
+
+
 
 
 

@@ -168,10 +168,12 @@
 
     public class Paginer<T>
     {
-        public List<T> Entreprises { get; set; }
+        public List<T> Entreprises { get; set; } // Entreprises affichées pour la page actuelle
+        public List<T> AllEntreprises { get; set; } // Toutes les entreprises pour la carte
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
     }
+
 
 
 }

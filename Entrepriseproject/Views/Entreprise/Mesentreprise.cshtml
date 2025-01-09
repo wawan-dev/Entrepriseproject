@@ -2,6 +2,7 @@
 
 <h1>Mes Entreprises</h1>
 
+<!-- Pagination -->
 <div class="d-flex justify-content-center my-4">
     <ul class="pagination">
         <!-- Précédent -->
@@ -79,6 +80,7 @@
     </ul>
 </div>
 
+
 <table class="table table-striped table-bordered table-hover">
     <thead class="table-dark">
         <tr>
@@ -138,22 +140,23 @@
 
 <script>
     const entreprises = [
-    @foreach (var entreprise in Model.Entreprises)
+    @foreach (var entreprise in Model.AllEntreprises) // Utiliser AllEntreprises ici
     {
         if (!string.IsNullOrEmpty(entreprise.Coordonnees))
         {
             var coords = entreprise.Coordonnees.Split(',');
             <text>{
-                                    nom: '@entreprise.Nom',
-                                    lat: @coords[0],
-                                    lng: @coords[1]
-                                },</text>
+                        nom: '@entreprise.Nom',
+                        lat: @coords[0],
+                        lng: @coords[1]
+                    },</text>
         }
     }
     ];
 
     let map;
 
+    // Initialisation de la carte
     function initMap() {
         // Initialisation de la carte centrée sur la France
         map = L.map('map').setView([46.603354, 1.8883335], 6); // Centre de la France
@@ -164,6 +167,7 @@
         }).addTo(map);
     }
 
+    // Affichage des marqueurs pour toutes les entreprises
     function showAllMarkers() {
         entreprises.forEach((entreprise) => {
             const marker = L.marker([parseFloat(entreprise.lat), parseFloat(entreprise.lng)])
