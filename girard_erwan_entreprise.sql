@@ -1,0 +1,150 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : db:3306
+-- Généré le : jeu. 09 jan. 2025 à 19:44
+-- Version du serveur : 8.4.1
+-- Version de PHP : 8.2.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `girard_erwan_entreprise`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Commentaire`
+--
+
+CREATE TABLE `Commentaire` (
+  `id_commentaire` int NOT NULL,
+  `id_entreprise` int NOT NULL,
+  `commentaire` text NOT NULL,
+  `date_creation` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `Note` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `Commentaire`
+--
+
+INSERT INTO `Commentaire` (`id_commentaire`, `id_entreprise`, `commentaire`, `date_creation`, `Note`) VALUES
+(1, 3, 'top', '2025-01-09 13:31:42', 5),
+(2, 3, 'Pas mal !', '2025-01-09 14:55:39', 4),
+(3, 4, 'super entreprise', '2025-01-09 15:00:18', 5),
+(4, 6, 'Il manque bcp d&#39;info a &#233;viter cher coll&#232;gue !', '2025-01-09 16:09:58', 1),
+(5, 22, 'Tr&#232;s bien !', '2025-01-09 19:52:16', 5),
+(6, 23, 'Super bien !', '2025-01-09 19:54:40', 5),
+(7, 23, 'okay', '2025-01-09 19:54:53', 3),
+(8, 24, 'super entreprise !', '2025-01-09 20:02:26', 5),
+(9, 24, 'Non c est nul bouhhhh ', '2025-01-09 20:02:48', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Entreprise`
+--
+
+CREATE TABLE `Entreprise` (
+  `id` int NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `siren` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `siret` varchar(14) DEFAULT NULL,
+  `adresse` varchar(255) DEFAULT NULL,
+  `code_postal` varchar(10) DEFAULT NULL,
+  `ville` varchar(100) DEFAULT NULL,
+  `departement` varchar(100) DEFAULT NULL,
+  `pays` varchar(50) DEFAULT 'France',
+  `date_creation` date DEFAULT NULL,
+  `dirigeants` varchar(255) DEFAULT NULL,
+  `activite` varchar(255) DEFAULT NULL,
+  `code_ape` varchar(10) DEFAULT NULL,
+  `Coordonnees` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `CategorieEntreprise` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `Entreprise`
+--
+
+INSERT INTO `Entreprise` (`id`, `nom`, `siren`, `siret`, `adresse`, `code_postal`, `ville`, `departement`, `pays`, `date_creation`, `dirigeants`, `activite`, `code_ape`, `Coordonnees`, `CategorieEntreprise`) VALUES
+(3, 'LE JOINT FRANCAIS', '542035753', '54203575300087', '2 RUE BALZAC 75008 PARIS', NULL, NULL, NULL, 'France', NULL, 'JEROME IZARI, ARNAUD VAZ,  ,  ,  ,  ', '22.19Z', NULL, '48.872886,2.300039', 'GE'),
+(4, 'LYCEE POLYVALENT CHEVROLLIER (LPO)', '194900031', '19490003100015', '2 RUE ADRIEN RECOUVREUR 49000 ANGERS', NULL, NULL, NULL, 'France', NULL, NULL, '85.31Z', NULL, '47.45435,-0.556997', 'ETI'),
+(5, 'BAPTISTE CHEVROLLIER', '894671114', '89467111400029', 'LE MESNIL AUZOUF 18 RUE BASSE 14260 DIALAN SUR CHAINE', NULL, NULL, NULL, 'France', NULL, 'BAPTISTE CHEVROLLIER', '28.11Z', NULL, '48.978778,-0.753185', 'PME'),
+(6, 'ABC', '517897260', '51789726000017', '85 RUE DE LA CONVENTION 75015 PARIS', NULL, 'PARIS', '75', 'France', NULL, 'HOVID-JONAS AROYAN', '43.32A', NULL, '48.842175,2.285808', 'PME'),
+(7, 'SOL ESSAIS', '444061766', '44406176600010', '460 RUE JEAN PERRIN 13100 AIX-EN-PROVENCE', NULL, 'AIX-EN-PROVENCE', '13', 'France', NULL, 'LAURENT THOMEL,  ,  ', '71.12B', NULL, '43.486998,5.372446', 'PME'),
+(8, 'PWD', '793799636', '79379963600022', '39 RUE DU HUIT MAI 1945 59264 ONNAING', NULL, 'ONNAING', '59', 'France', NULL, 'CHRISTOPHE GENEVIEVE DEMANET', '70.22Z', NULL, '50.382513,3.599778', 'PME'),
+(9, 'C.E LE JOINT FRANCAIS', '434942082', '43494208200018', 'ZONE INDUSTRIELLE BAZOUGES 53200 CHATEAU-GONTIER-SUR-MAYENNE', NULL, 'CHATEAU-GONTIER-SUR-MAYENNE', '53', 'France', NULL, NULL, '94.20Z', NULL, '48.4575309,-1.1384663', 'PME'),
+(10, 'SODEXO SPORTS ET LOISIRS (SODEXO LOISIRS)', '311160592', '31116059201555', '6 RUE DE LA REDOUTE 78280 GUYANCOURT', NULL, 'GUYANCOURT', '78', 'France', NULL, 'FRANCK CHANEVAS,  ', '56.10A', NULL, '48.783192,2.057953', 'GE'),
+(11, 'KILIAN (DENIS KILIAN BOUCHERIE CHARCUTERIE)', '500495635', '50049563500020', '39 RUE EUGENE KLOSTER 57800 FREYMING-MERLEBACH', NULL, 'FREYMING-MERLEBACH', '57', 'France', NULL, 'DENIS KILIAN, DENIS JEAN KILLIAN (KILLIAN)', '47.22Z', NULL, '49.14811,6.815593', 'PME'),
+(12, 'CHEVROLLIER', '807388434', '80738843400019', 'LES OLIVES 97 AV DES POILUS 13013 MARSEILLE 13', NULL, 'MARSEILLE 13', '13', 'France', NULL, 'KHALED MIGHRI', '47.11B', NULL, '43.324664,5.455437', 'PME'),
+(14, 'ESSAIE BOUILLON', '843064569', '84306456900018', 'CHEZ AMITIES TSIGANES PLACE DE LA PAIX 57700 HAYANGE', NULL, 'HAYANGE', '57', 'France', NULL, 'ESSAIE BOUILLON', '47.89Z', NULL, '49.329809,6.06197', 'PME'),
+(15, 'FRANCOISE CHEVROLLIER (INTUITIV\'MANS)', '910021211', '91002121100016', '12 RUE DU MOULIN L\'EVEQUE 72000 LE MANS', NULL, 'LE MANS', '72', 'France', NULL, 'FRANCOISE CHEVROLLIER', '96.04Z', NULL, '48.020309,0.187007', 'PME'),
+(16, 'ANGERS', '851756932', '85175693200014', '21 QUAI SADI CARNOT 53000 LAVAL', NULL, 'LAVAL', '53', 'France', NULL, 'PIERRE-ELIE LOUIS MARIE GERARD', '68.10Z', NULL, '48.069997,-0.769665', 'PME'),
+(17, 'DAVID CHEVROLLIER', '345359574', '34535957400042', '9 RUE ANTOINE BOURDELLE 49124 SAINT-BARTHELEMY-D\'ANJOU', NULL, 'SAINT-BARTHELEMY-D\'ANJOU', '49', 'France', NULL, 'DAVID CHEVROLLIER', '81.21Z', NULL, '47.461054,-0.481654', 'PME'),
+(18, 'DAVOS', '433780681', '43378068100014', 'CHEZ ABC LIV - BAT 37 23 RUE DU DEPART 75014 PARIS', NULL, 'PARIS', '75', 'France', NULL, NULL, '70.22Z', NULL, '48.842135,2.323269', 'PME'),
+(19, 'ALEX CHEVROLLIER', '909601809', '90960180900017', '21 RUE MARIE PAULE SALONNE 22650 BEAUSSAIS-SUR-MER', NULL, 'BEAUSSAIS-SUR-MER', '22', 'France', NULL, 'ALEX CHEVROLLIER', '96.09Z', NULL, '48.574203,-2.150709', 'PME'),
+(21, 'ESSAIS', '352455851', '35245585100019', '1 PLACE DESCARTES 27000 EVREUX', NULL, 'EVREUX', '27', 'France', NULL, NULL, '94.99Z', NULL, '49.010929,1.165232', NULL),
+(22, 'SANDRA CHEVROLLIER', '853501310', '85350131000041', '38 LE PUY 85310 LE TABLIER', NULL, 'LE TABLIER', '85', 'France', NULL, 'SANDRA CHEVROLLIER', '86.90E', NULL, '46.563447,-1.337573', 'PME'),
+(23, 'CYRIL CHEVROLLIER', '848895454', '84889545400017', 'ZAC RIVES DE L ESCAUT RUE JEAN JAURES 59410 ANZIN', NULL, 'ANZIN', '59', 'France', NULL, 'CYRIL CHEVROLLIER', '68.20A', NULL, '50.376892,3.518311', NULL),
+(24, 'SOCIETE BAT\'IME', '380043208', '38004320800012', '40 RUE AUGUSTE CHEVROLLIER 49800 TRELAZE', NULL, 'TRELAZE', '49', 'France', NULL, 'IZZET ALBAYRAK', '45.2V', NULL, '47.449108,-0.504172', NULL);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `Commentaire`
+--
+ALTER TABLE `Commentaire`
+  ADD PRIMARY KEY (`id_commentaire`),
+  ADD KEY `id_entreprise` (`id_entreprise`);
+
+--
+-- Index pour la table `Entreprise`
+--
+ALTER TABLE `Entreprise`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `siren` (`siren`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `Commentaire`
+--
+ALTER TABLE `Commentaire`
+  MODIFY `id_commentaire` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT pour la table `Entreprise`
+--
+ALTER TABLE `Entreprise`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `Commentaire`
+--
+ALTER TABLE `Commentaire`
+  ADD CONSTRAINT `Commentaire_ibfk_1` FOREIGN KEY (`id_entreprise`) REFERENCES `Entreprise` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
