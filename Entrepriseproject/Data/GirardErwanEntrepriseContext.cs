@@ -6,13 +6,13 @@ using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Entrepriseproject.Data;
 
-public partial class EntrepriseContext : DbContext
+public partial class GirardErwanEntrepriseContext : DbContext
 {
-    public EntrepriseContext()
+    public GirardErwanEntrepriseContext()
     {
     }
 
-    public EntrepriseContext(DbContextOptions<EntrepriseContext> options)
+    public GirardErwanEntrepriseContext(DbContextOptions<GirardErwanEntrepriseContext> options)
         : base(options)
     {
     }
@@ -27,7 +27,7 @@ public partial class EntrepriseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=192.168.10.16;port=3306;user=girard_erwan;password=6rEtw3VB;database=girard_erwan_entreprise", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.4.1-mysql"));
+        => optionsBuilder.UseMySql("server=192.168.144.16;port=5000;user=girard_erwan;password=6rEtw3VB;database=girard_erwan_entreprise", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.4.5-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

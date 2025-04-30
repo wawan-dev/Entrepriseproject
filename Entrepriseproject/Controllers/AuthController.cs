@@ -11,9 +11,9 @@ namespace YourApp.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly EntrepriseContext _context;
+        private readonly GirardErwanEntrepriseContext _context;
 
-        public AuthController(EntrepriseContext context)
+        public AuthController(GirardErwanEntrepriseContext context)
         {
             _context = context;
         }

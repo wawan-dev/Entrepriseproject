@@ -37,7 +37,6 @@ public partial class Entreprise
 
     public virtual ICollection<Commentaire> Commentaires { get; set; } = new List<Commentaire>();
 }
-
 public class Result
 {
     public string Siren { get; set; }

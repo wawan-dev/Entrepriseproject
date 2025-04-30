@@ -18,10 +18,10 @@ namespace Entrepriseproject.Controllers
     public class EntrepriseController : Controller
     {
         private readonly ILogger<EntrepriseController> _logger;
-        private readonly EntrepriseContext _context;
+        private readonly GirardErwanEntrepriseContext _context;
         private readonly HttpClient _httpClient;
 
-        public EntrepriseController(ILogger<EntrepriseController> logger, EntrepriseContext context, HttpClient httpClient)
+        public EntrepriseController(ILogger<EntrepriseController> logger, GirardErwanEntrepriseContext context, HttpClient httpClient)
         {
             _logger = logger;
             _context = context;
