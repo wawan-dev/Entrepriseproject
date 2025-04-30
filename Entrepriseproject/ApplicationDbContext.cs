@@ -19,10 +19,13 @@ namespace Applicationhackathon
         {
             get; set;
         }
+
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Commentaire>()
-            .Property(c => c.EntrepriseId)
+            .Property(c => c.IdEntreprise)
             .HasColumnName("id_entreprise");  // Correspondance explicite
 
         }

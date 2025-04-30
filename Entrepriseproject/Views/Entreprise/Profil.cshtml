@@ -12,7 +12,7 @@
             <h4 class="card-title">Informations générales</h4>
             <p><strong>SIREN :</strong> @Model.Siren</p>
             <p><strong>SIRET :</strong> @Model.Siret</p>
-            <p><strong>Adresse :</strong> @Model.Adresse, @Model.Code_postal, @Model.Ville</p>
+            <p><strong>Adresse :</strong> @Model.Adresse, @Model.CodePostal, @Model.Ville</p>
             <p><strong>Pays :</strong> @Model.Pays</p>
             <p><strong>Catégorie :</strong> @Model.CategorieEntreprise</p>
             <p><strong>Activité :</strong> @Model.Activite</p>
@@ -31,8 +31,8 @@
                 {
                     <li class="list-group-item">
                         <p><strong>Note :</strong> @commentaire.Note/5</p>
-                        <p>@commentaire.Texte</p>
-                        <p><small><em>Ajouté le @commentaire.Date_Creation.ToString("dd/MM/yyyy")</em></small></p>
+                        <p>@commentaire.Commentaire1</p>
+                        <p><small><em>Ajouté le @commentaire.DateCreation</em></small></p>
                     </li>
                 }
             </ul>

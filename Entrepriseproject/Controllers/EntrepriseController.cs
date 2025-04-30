@@ -4,22 +4,24 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Web;
 using Applicationhackathon;
+using Entrepriseproject.Data;
 using Entrepriseproject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Mysqlx.Prepare;
 using Newtonsoft.Json;
 
 namespace Entrepriseproject.Controllers
 {
+    [Authorize]
     public class EntrepriseController : Controller
     {
         private readonly ILogger<EntrepriseController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly EntrepriseContext _context;
         private readonly HttpClient _httpClient;
 
-        public EntrepriseController(ILogger<EntrepriseController> logger, ApplicationDbContext context, HttpClient httpClient)
+        public EntrepriseController(ILogger<EntrepriseController> logger, EntrepriseContext context, HttpClient httpClient)
         {
             _logger = logger;
             _context = context;
@@ -35,7 +37,7 @@ namespace Entrepriseproject.Controllers
 
         public async Task<IActionResult> Profil(int id)
         {
-            var entreprise = await _context.Entreprise
+            var entreprise = await _context.Entreprises
                 .Include(e => e.Commentaires) // Inclut les commentaires liés à l'entreprise
                 .FirstOrDefaultAsync(e => e.Id == id);
 
@@ -51,7 +53,7 @@ namespace Entrepriseproject.Controllers
         public IActionResult MesEntreprise(int page = 1, string filtre = null)
         {
             int pageSize = 10;
-            var query = _context.Entreprise.AsQueryable();
+            var query = _context.Entreprises.AsQueryable();
 
             // Si un filtre est fourni, on cherche dans le nom et le SIRET
             if (!string.IsNullOrEmpty(filtre))
@@ -95,11 +97,11 @@ namespace Entrepriseproject.Controllers
                     Siren = a.Siren,
                     Siret = a.Siege?.Siret,
                     Adresse = a.Siege?.Adresse,
-                    Code_postal = a.Siege?.Code_Postal,
+                    CodePostal = a.Siege?.CodePostal,
                     Ville = a.Siege?.Libelle_Commune,
                     Departement = a.Siege?.departement,
                     Pays = "France", 
-                    Date_Creation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
+                    DateCreation = DateTime.TryParse(a.DateCreation, out DateTime parsedDate) ? parsedDate : (DateTime?)null,
                     Activite = a.activite_principale,
                     Dirigeants = string.Join(", ", a.Dirigeants.Select(d => $"{d.Prenoms} {d.Nom}")),
                     Coordonnees = a.Siege.Coordonnees,
@@ -129,7 +131,7 @@ namespace Entrepriseproject.Controllers
             
             if (ModelState.IsValid)
             {
-                _context.Entreprise.Add(entreprise); // Ajout de l'entreprise en base de données
+                _context.Entreprises.Add(entreprise); // Ajout de l'entreprise en base de données
                 await _context.SaveChangesAsync(); // Sauvegarde des modifications
 
                 return RedirectToAction("MesEntreprise"); // Rediriger vers la page de la liste des entreprises
@@ -146,7 +148,7 @@ namespace Entrepriseproject.Controllers
                 return BadRequest("Données invalides.");
             }
 
-            var entreprise = await _context.Entreprise.FindAsync(entrepriseId);
+            var entreprise = await _context.Entreprises.FindAsync(entrepriseId);
             if (entreprise == null)
             {
                 return NotFound();
@@ -154,13 +156,13 @@ namespace Entrepriseproject.Controllers
 
             var nouveauCommentaire = new Commentaire
             {
-                EntrepriseId = entrepriseId,
-                Texte = System.Net.WebUtility.HtmlEncode(commentaire),  // Éviter l'exécution de code
+                IdEntreprise = entrepriseId,
+                Commentaire1 = System.Net.WebUtility.HtmlEncode(commentaire),  // Éviter l'exécution de code
                 Note = note,
-                Date_Creation = DateTime.Now
+                DateCreation = DateTime.Now
             };
 
-            _context.Commentaire.Add(nouveauCommentaire);
+            _context.Commentaires.Add(nouveauCommentaire);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Profil", new { id = entrepriseId });

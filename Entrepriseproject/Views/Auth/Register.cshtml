@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Inscription";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm mt-5">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Créer un compte</h3>
+
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Déjà inscrit ? <a asp-controller="Auth" asp-action="Login">Se connecter</a></p>
+                </div>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="text-danger mt-3">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <p>@error.ErrorMessage</p>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
