@@ -1,4 +1,4 @@
-﻿using Applicationhackathon;
+﻿
 using Entrepriseproject.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
